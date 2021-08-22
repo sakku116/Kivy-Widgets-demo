@@ -30,7 +30,6 @@
     # *bind ke button
     # on_release: Factory.MyPopup().open()
 
-
 <MyGridLayout>
     GridLayout:
         cols: 1
@@ -124,5 +123,18 @@
                         step: 1
                         orientation: 'horizontal'
                         on_value: root.slider_slided(*args)
+
+            AccordionItem: # spinner stuff
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        id: spinner_label
+                        text: "Pick one!!"
+                    Spinner:
+                        id: spinner_widget
+                        text: "favorite pizza" # text awal pada button spinner
+                        values: ["pepperoni", "cheese", "Mushroom"]
+                        on_text: root.spinner_clicked(spinner_widget.text) 
+                        # (gatau kenapa .text malah return valuesnya wkwkwkwk)
         
                 
