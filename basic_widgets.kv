@@ -8,7 +8,7 @@
     # (untuk untuk menutup popup dengan klik bagian lain selain popup)
     
     title: 'Popup Box'
-    size_hint: 0.6, 0.2
+    size_hint: 0.6, 0.4
     pos_hint: {'x':0.2, 'top':0.9}
     
     GridLayout: # pack widget jadi satu karena popup hanya bisa untuk satu widget
@@ -16,6 +16,7 @@
         Label:
             text: 'tap to close the popup'
             font_size: 20
+
         Button:
             text: 'close me'
             font_size: 25
@@ -25,180 +26,213 @@
     # MyPopup harus di deklarasikan diluar MyGridLayout karena, MyGridLayout dipanggil pada py file
     # yang akan muncul secara otomatis di awal, dan kita butuh mypopup ini dipanggil sendiri di 
     # kv lang file.
-    #
+    # '''
     # import Factory kivy.factory.Factory
-    # *bind ke button
+    # #bind ke button
     # on_release: Factory.MyPopup().open()
+    # '''
 
 <MyGridLayout>
-    GridLayout:
-        cols: 1
-        size: root.width, root.height # untuk mengikuti size default window
-        padding: 5
-        spacing: 5
+    do_default_tab: False
 
-        Accordion:
-            orientation: 'horizontal'
-
-            AccordionItem: # Popup stuff
-                GridLayout:
-                    cols: 1
-                    Label: 
-                        text: 'click to show the popup'
-                        font_size: 30
-                    Button:
-                        text: 'popup'
-                        font_size: 30
-                        on_release: Factory.MyPopup().open()
-
-            AccordionItem: # ROUNDED BUTTON stuff
-                BoxLayout:
-                    orientation:'vertical'
-                    canvas.before:
-                        Color:
-                            rgba: (1,1,1,1)
-                        Rectangle:
-                            size: self.size
-                            pos: self.pos
-
-                    Label:
-                        text: ''
-                    Button:
-                        text: 'rounded button'
-                        font_size: 30
-                        # set default background color ke notthing
-                        # dan set juga background color ke opacity 0 (transparant)
-                        # karena kita harus menghapus tampak default dari button
-                        backgorund_normal: ''
-                        background_color: (0,0,0,0) # transparan
-                        
-                        # dan mengganti tampaknya dengan canvas before
-                        canvas.before:
-                            Color:
-                                rgba: (1,0,0,1)
-                            RoundedRectangle:
-                                size: self.size
-                                pos: self.pos
-                                radius: [20]
-                        # masih belum tau bagaimana merubah warna canvas.before saat on_press dan onr_elease
-                    Label:
-                        text: ''
-                        
-            AccordionItem: # CHECKBOX stuff
-                GridLayout:
-                    cols: 1
-                    GridLayout:
-                        cols: 2
-                        canvas.before:
-                            Color:
-                                rgba: (1,1,1,.75)
-                            Rectangle:
-                                size: self.size
-                                pos: self.pos
-                        Label:
-                            id: cb_label1
-                            text: 'input love'
-                            font_size: 25
-                            color: (0,0,0,1)
-                        CheckBox:
-                            #group: "cb1" #<-- (group for make radio button and can just pick one item per group)
-                            color: (0,0,0,1)
-                            on_active: root.checkbox_click(self, self.active, 'love')
-                        Label:
-                            id: cb_label2
-                            font_size: 25
-                            text: 'input you'
-                            color: (0,0,0,1)
-                        CheckBox:
-                            #group: "cb1" #<-- (group for make radio button and can just pick one item per group)
-                            color: (0,0,0,1)
-                            on_active: root.checkbox_click(self, self.active, 'you')
-                    Label:
-                        id: cb_label_output
-                        text: 'string:'
-                        font_size: 35
-
-            AccordionItem: # BASIC stuff
-                GridLayout:
-                    cols: 1
-                    BoxLayout:
-                        orientation: 'vertical'
-                        # merubah warna canvas dari boxlayout
-                        canvas.before:
-                            Color:
-                                rgba: (0,1,1,1)
-                            Rectangle:
-                                size: self.size
-                                pos: self.pos
-                        Label:
-                            id: basic_label
-                            multiline: True
-                            size_hint: (1, .5)
-                            font_size: 30
-                            color: (0,0,0,1)
-                            text: 'type something'
-                        TextInput:
-                            id: basic_textinput
-                        Button:
-                            text: 'submit'
-                            on_press: root.submit_press()
-
-            AccordionItem: # SLIDER stuff
-                BoxLayout: 
-                    orientation: 'vertical'
-                    Label:
-                        id: slider_label
-                        text: 'slide it'
-                        font_size: 40
-                    Slider:
-                        min: 1
-                        max: 100
-                        step: 1
-                        orientation: 'horizontal'
-                        on_value: root.slider_slided(*args)
-
-            AccordionItem: # SPINNER stuff
-                BoxLayout:
-                    orientation: 'vertical'
-                    Label:
-                        id: spinner_label
-                        text: "Pick one!!"
-                    Spinner:
-                        id: spinner_widget
-                        text: "favorite pizza" # text awal pada button spinner
-                        values: ["pepperoni", "cheese", "Mushroom"]
-                        on_text: root.spinner_clicked(spinner_widget.text) 
-                        # (gatau kenapa .text malah return valuesnya wkwkwkwk)
-
-            AccordionItem: # SPLITTER stuff
-                BoxLayout:
-                    orientation: 'vertical'
-                    # bagaimana splitter bekerja
-                    # splitter tidak butuh packing beberapa widget seperti boxlayout, gridlayout, dll
-                    # dia hanya berisi 1 widget yang mau dibuat resizable 
-                    # dan akan mengorbankan sizehint dari widget disekitarnya
-                    Splitter:
-                        sizable_from: 'bottom'
-                        Button:
-                            text: 'hello world 1'
-                            font_size: 30
-                    Label:
-                        text: 'Label1'
-                        font_size: 30
-                    Button:
-                        text: 'hello world 2'
-                        font_size: 30
-
-                    BoxLayout:
-                        orientation: 'horizontal'
-                        Button:
-                            text: 'left'
-                            font_size: 30
-                        Splitter:
-                            # kelemahan hanya bisa bekerja pada satu widget
-                            resizable_from: 'left'
-                            Button:
-                                text: 'right'
-                                font_size: 30
+    TabbedPanelItem: # Popup stuff
+        text: 'popup'
+        GridLayout:
+            cols: 1
+            Label: 
+                text: 'click to show the popup'
+                font_size: 30
             
-            
+            GridLayout: # container
+                cols:1
+                padding: 40
+
+                Button:
+                    text: 'popup'
+                    font_size: 30
+                    on_release: Factory.MyPopup().open()
+
+    TabbedPanelItem: # ROUNDED BUTTON stuff
+        text: 'roundedbtn'
+        BoxLayout:
+            orientation:'vertical'
+            canvas.before:
+                Color:
+                    rgba: (1,1,1,1) 
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            Label:
+                text: ''
+            Button:
+                text: 'rounded button'
+                font_size: 30
+                
+                # set default background color ke notthing
+                # dan set juga background color ke opacity 0 (transparant)
+                # karena kita harus menghapus tampak default dari button
+                
+                backgorund_normal: ''
+                background_color: (0,0,0,0) # transparan
+                
+                # dan mengganti tampaknya dengan canvas before
+                canvas.before:
+                    Color:
+                        rgba: (1,0,0,1) if self.state=='normal' else (0,.7,.7,1) # visual feedback
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [20]
+                # masih belum tau bagaimana merubah warna canvas.before saat on_press dan onr_elease
+            Label:
+                text: ''
+                
+    TabbedPanelItem: # CHECKBOX stuff
+        text: 'checkbox'
+        GridLayout:
+            cols: 1
+            GridLayout:
+                cols: 2
+                canvas.before:
+                    Color:
+                        rgba: (1,1,1,.75)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                Label:
+                    id: cb_label1
+                    text: 'input love'
+                    font_size: 25
+                    color: (0,0,0,1)
+                CheckBox:
+                    #group: "cb1" #<-- (group for make radio button and can just pick one item per group)
+                    color: (0,0,0,1)
+                    on_active: root.checkbox_click(self, self.active, 'love')
+                Label:
+                    id: cb_label2
+                    font_size: 25
+                    text: 'input you'
+                    color: (0,0,0,1)
+                CheckBox:
+                    #group: "cb1" #<-- (group for make radio button and can just pick one item per group)
+                    color: (0,0,0,1)
+                    on_active: root.checkbox_click(self, self.active, 'you')
+            Label:
+                id: cb_label_output
+                text: 'string:'
+                font_size: 35
+
+    TabbedPanelItem: # BASIC stuff
+        text: 'basic'
+        GridLayout:
+            cols: 1
+            BoxLayout:
+                orientation: 'vertical'
+                # merubah warna canvas dari boxlayout
+                canvas.before:
+                    Color:
+                        rgba: (0,1,1,1)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                Label:
+                    id: basic_label
+                    multiline: True
+                    size_hint: (1, .5)
+                    font_size: 30
+                    color: (0,0,0,1)
+                    text: 'type something'
+                TextInput:
+                    id: basic_textinput
+                Button:
+                    text: 'submit'
+                    on_press: root.submit_press()
+
+    TabbedPanelItem: # SLIDER stuff
+        text: 'slider'
+        BoxLayout: 
+            orientation: 'vertical'
+            Label:
+                id: slider_label
+                text: 'slide it'
+                font_size: 40
+            Slider:
+                min: 1
+                max: 100
+                step: 1
+                orientation: 'horizontal'
+                on_value: root.slider_slided(*args)
+
+    TabbedPanelItem: # SPINNER stuff
+        text: 'spinner'
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                id: spinner_label
+                text: "Pick one!!"
+            Spinner:
+                id: spinner_widget
+                text: "favorite pizza" # text awal pada button spinner
+                values: ["pepperoni", "cheese", "Mushroom"]
+                on_text: root.spinner_clicked(spinner_widget.text) 
+                # (gatau kenapa .text malah return valuesnya wkwkwkwk)
+
+    TabbedPanelItem: # SPLITTER stuff
+        text: 'splitter'
+        BoxLayout:
+            orientation: 'vertical'
+            # bagaimana splitter bekerja
+            # splitter tidak butuh packing beberapa widget seperti boxlayout, gridlayout, dll
+            # dia hanya berisi 1 widget yang mau dibuat resizable 
+            # dan akan mengorbankan sizehint dari widget disekitarnya
+            Splitter:
+                sizable_from: 'bottom'
+                Button:
+                    text: 'hello world 1'
+                    font_size: 30
+            Label:
+                text: 'Label1'
+                font_size: 30
+            Button:
+                text: 'hello world 2'
+                font_size: 30
+
+            BoxLayout:
+                orientation: 'horizontal'
+                Button:
+                    text: 'left'
+                    font_size: 30
+                Splitter:
+                    # kelemahan hanya bisa bekerja pada satu widget
+                    resizable_from: 'left'
+                    Button:
+                        text: 'right'
+                        font_size: 30
+
+    TabbedPanelItem:
+        text: 'animate'
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                id: animate_stuff_label
+                text: 'click to animate the button'
+                font_size: 30
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 50
+                Label:
+                Button:
+                    id: 'animate_stuff_button'
+                    text: 'clickit'
+                    font_size: 30
+                    pos_hint: {'center_x':0.5}
+                    on_press: root.change_label_animate()
+                    on_press: root.animate_widget(self)
+                    # command bind dibuat dalam function animate_widget
+                    # dengan syntax [var].bind(on_complete = self.[new function])
+                Label:
+    
+    
