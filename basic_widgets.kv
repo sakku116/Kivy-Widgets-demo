@@ -1,16 +1,16 @@
 #: import Factory kivy.factory.Factory
 
 <MyPopup@Popup>
-    #auto_dismiss: False 
+    #auto_dismiss: False
     # (untuk mencegah popup hilang saat menyentuh area selain popup)
 
     auto_dismiss: True
     # (untuk untuk menutup popup dengan klik bagian lain selain popup)
-    
+
     title: 'Popup Box'
     size_hint: 0.6, 0.4
     pos_hint: {'x':0.2, 'top':0.9}
-    
+
     GridLayout: # pack widget jadi satu karena popup hanya bisa untuk satu widget
         cols:1
         Label:
@@ -24,7 +24,7 @@
 
     # CATATAN!!!
     # MyPopup harus di deklarasikan diluar MyGridLayout karena, MyGridLayout dipanggil pada py file
-    # yang akan muncul secara otomatis di awal, dan kita butuh mypopup ini dipanggil sendiri di 
+    # yang akan muncul secara otomatis di awal, dan kita butuh mypopup ini dipanggil sendiri di
     # kv lang file.
     # '''
     # import Factory kivy.factory.Factory
@@ -39,10 +39,11 @@
         text: 'popup'
         GridLayout:
             cols: 1
-            Label: 
+
+            Label:
                 text: 'click to show the popup'
                 font_size: 30
-            
+
             GridLayout: # container
                 cols:1
                 padding: 40
@@ -58,7 +59,7 @@
             orientation:'vertical'
             canvas.before:
                 Color:
-                    rgba: (1,1,1,1) 
+                    rgba: (1,1,1,1)
                 Rectangle:
                     size: self.size
                     pos: self.pos
@@ -68,14 +69,14 @@
             Button:
                 text: 'rounded button'
                 font_size: 30
-                
+
                 # set default background color ke notthing
                 # dan set juga background color ke opacity 0 (transparant)
                 # karena kita harus menghapus tampak default dari button
-                
+
                 backgorund_normal: ''
                 background_color: (0,0,0,0) # transparan
-                
+
                 # dan mengganti tampaknya dengan canvas before
                 canvas.before:
                     Color:
@@ -87,7 +88,7 @@
                 # masih belum tau bagaimana merubah warna canvas.before saat on_press dan onr_elease
             Label:
                 text: ''
-                
+
     TabbedPanelItem: # CHECKBOX stuff
         text: 'checkbox'
         GridLayout:
@@ -151,7 +152,7 @@
 
     TabbedPanelItem: # SLIDER stuff
         text: 'slider'
-        BoxLayout: 
+        BoxLayout:
             orientation: 'vertical'
             Label:
                 id: slider_label
@@ -175,7 +176,7 @@
                 id: spinner_widget
                 text: "favorite pizza" # text awal pada button spinner
                 values: ["pepperoni", "cheese", "Mushroom"]
-                on_text: root.spinner_clicked(spinner_widget.text) 
+                on_text: root.spinner_clicked(spinner_widget.text)
                 # (gatau kenapa .text malah return valuesnya wkwkwkwk)
 
     TabbedPanelItem: # SPLITTER stuff
@@ -184,7 +185,7 @@
             orientation: 'vertical'
             # bagaimana splitter bekerja
             # splitter tidak butuh packing beberapa widget seperti boxlayout, gridlayout, dll
-            # dia hanya berisi 1 widget yang mau dibuat resizable 
+            # dia hanya berisi 1 widget yang mau dibuat resizable
             # dan akan mengorbankan sizehint dari widget disekitarnya
             Splitter:
                 sizable_from: 'bottom'
@@ -234,5 +235,33 @@
                     # command bind dibuat dalam function animate_widget
                     # dengan syntax [var].bind(on_complete = self.[new function])
                 Label:
-    
-    
+
+    TabbedPanelItem: # ACCORDION STUFF
+        text: 'accordion'
+
+        Accordion:
+            orientation: 'horizontal'
+
+            AccordionItem:
+                Label:
+                    text: 'item1'
+                    font_size: 30
+            AccordionItem:
+                Label:
+                    text: 'item2'
+                    font_size: 30
+
+    TabbedPanelItem: # CAROUSEL STUFF
+        text: 'Carousel'
+
+        Carousel:
+            direction: 'right'
+            
+            BoxLayout:
+                Label:
+                    text: 'slide to right'
+                    font_size: 30
+            BoxLayout:
+                Label:
+                    text: 'item2'
+                    font_size: 30
