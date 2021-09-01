@@ -35,7 +35,37 @@
 <MyGridLayout>
     do_default_tab: False
 
-    TabbedPanelItem: # Popup stuff
+    ### BASIC STUFF ###
+    TabbedPanelItem:
+        text: 'basic'
+        GridLayout:
+            cols: 1
+            BoxLayout:
+                orientation: 'vertical'
+                # merubah warna canvas dari boxlayout
+                canvas.before:
+                    Color:
+                        rgba: (0,1,1,1)
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                Label:
+                    id: basic_label
+                    multiline: True
+                    size_hint: (1, .5)
+                    font_size: 30
+                    color: (0,0,0,1)
+                    text: 'type something'
+                TextInput:
+                    id: basic_textinput
+                    font_size: 25
+                Button:
+                    text: 'submit'
+                    font_size: 25
+                    on_press: root.submit_press()
+
+    ### POPUP STUFF ###
+    TabbedPanelItem:
         text: 'popup'
         GridLayout:
             cols: 1
@@ -52,8 +82,13 @@
                     text: 'popup'
                     font_size: 30
                     on_release: Factory.MyPopup().open()
+                    # (untuk memanggil Layout/class
+                    # membutuhkan Factory yang sudah 
+                    # di import diatas
+                    # Factory.MyPopup().[command syntax])
 
-    TabbedPanelItem: # ROUNDED BUTTON stuff
+    ### ROUNDED BUTTON STUFF ###
+    TabbedPanelItem:
         text: 'roundedbtn'
         BoxLayout:
             orientation:'vertical'
@@ -72,8 +107,7 @@
 
                 # set default background color ke notthing
                 # dan set juga background color ke opacity 0 (transparant)
-                # karena kita harus menghapus tampak default dari button
-
+                # karena kita harus menghapus tampak default dari buttond
                 backgorund_normal: ''
                 background_color: (0,0,0,0) # transparan
 
@@ -84,12 +118,12 @@
                     RoundedRectangle:
                         size: self.size
                         pos: self.pos
-                        radius: [20]
-                # masih belum tau bagaimana merubah warna canvas.before saat on_press dan onr_elease
+                        radius: [40] if self.state=='normal' else [50]
             Label:
                 text: ''
 
-    TabbedPanelItem: # CHECKBOX stuff
+    ### CHECKBOX STUFF ###
+    TabbedPanelItem:
         text: 'checkbox'
         GridLayout:
             cols: 1
@@ -124,33 +158,8 @@
                 text: 'string:'
                 font_size: 35
 
-    TabbedPanelItem: # BASIC stuff
-        text: 'basic'
-        GridLayout:
-            cols: 1
-            BoxLayout:
-                orientation: 'vertical'
-                # merubah warna canvas dari boxlayout
-                canvas.before:
-                    Color:
-                        rgba: (0,1,1,1)
-                    Rectangle:
-                        size: self.size
-                        pos: self.pos
-                Label:
-                    id: basic_label
-                    multiline: True
-                    size_hint: (1, .5)
-                    font_size: 30
-                    color: (0,0,0,1)
-                    text: 'type something'
-                TextInput:
-                    id: basic_textinput
-                Button:
-                    text: 'submit'
-                    on_press: root.submit_press()
-
-    TabbedPanelItem: # SLIDER stuff
+    ### SLIDER STUFF ###
+    TabbedPanelItem:
         text: 'slider'
         BoxLayout:
             orientation: 'vertical'
@@ -165,7 +174,8 @@
                 orientation: 'horizontal'
                 on_value: root.slider_slided(*args)
 
-    TabbedPanelItem: # SPINNER stuff
+    ### SPINNER STUFF ###
+    TabbedPanelItem:
         text: 'spinner'
         BoxLayout:
             orientation: 'vertical'
@@ -179,7 +189,8 @@
                 on_text: root.spinner_clicked(spinner_widget.text)
                 # (gatau kenapa .text malah return valuesnya wkwkwkwk)
 
-    TabbedPanelItem: # SPLITTER stuff
+    ### SPLITTER STUFF ###
+    TabbedPanelItem:
         text: 'splitter'
         BoxLayout:
             orientation: 'vertical'
@@ -211,6 +222,7 @@
                         text: 'right'
                         font_size: 30
 
+    ### ANIMATION STUFF ###
     TabbedPanelItem:
         text: 'animate'
         BoxLayout:
@@ -236,7 +248,8 @@
                     # dengan syntax [var].bind(on_complete = self.[new function])
                 Label:
 
-    TabbedPanelItem: # ACCORDION STUFF
+    ### ACCORDION STUFF ###
+    TabbedPanelItem:
         text: 'accordion'
 
         Accordion:
@@ -251,12 +264,13 @@
                     text: 'item2'
                     font_size: 30
 
-    TabbedPanelItem: # CAROUSEL STUFF
+    ### CAROUSEL STUFF ###
+    TabbedPanelItem:
         text: 'Carousel'
 
         Carousel:
             direction: 'right'
-            
+
             BoxLayout:
                 Label:
                     text: 'slide to right'
@@ -265,3 +279,109 @@
                 Label:
                     text: 'item2'
                     font_size: 30
+
+    ### WIDGET SIZE STUFF ###
+    TabbedPanelItem:
+        text: 'sizing'
+
+        BoxLayout: 
+            orientation: 'vertical'
+
+            BoxLayout:
+                orientation: 'horizontal'
+                padding: 30
+                size_hint_y: .5
+                pos_hint: {'center_y': .5}
+                
+                Label:
+                    canvas.before:
+                        Color:
+                            rgba: (0,0,0,.8)
+                        RoundedRectangle:
+                            size: self.size
+                            pos: self.pos
+                            radius: [50]
+                    text: 'resize the window'
+                    font_size: 20
+            
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: 10
+                Button:
+                    text: 'responsive'
+                    size_hint: .5,.5 # x,y percentage .1-1
+                    pos_hint: {'center_x': .5}
+                Button:
+                    text: 'non responsive'
+                    pos_hint: {'center_x': .5}
+                    size_hint: None, None # non percentage
+                    # set size manually
+                    width: 200
+                    height: 150
+
+    ### MARKUP STUFF ###
+    TabbedPanelItem:
+        text: 'text markup'
+        # Markup itu seperti html
+
+        GridLayout:
+            cols: 2
+            spacing: 20
+
+            Label: # bold
+                markup: True
+                font_size: 18
+                text: 'this is [b]bold[/b] text'
+            Label: # italic
+                markup: True
+                font_size: 18
+                text: 'this is [i]italic[/i] text'
+            Label: # underline
+                markup: True
+                font_size: 18
+                text: 'this is [u]underlined[/u] text!'
+            Label: # striketrough
+                markup: True
+                font_size: 18
+                text: 'this is [s]striketrough[/s] text'
+            Label: # color
+                markup: True
+                font_size: 18
+                text: 'this is [color=#4CC1AD]colorized[/color] text'
+            Label: # size
+                markup: True
+                font_size: 18
+                text: 'this is [size=50]sized[/size] text'
+            Label: # font
+                markup: True
+                font_size: 18
+                text: 'this is [font=JetBrainsMono-VariableFont_wght.ttf]font[/font] text'
+            Label: # sup and sub
+                markup: True
+                font_size: 18
+                text: 'this is [sup]sup[/sup] and [sub]down[/sub] text'
+            # atau bahkan nested markup
+            Label:
+                markup: True
+                font_size: 18
+                text: "nested [color=#EEA26B][u][i][b]markup[/b][/i][/u][/color]"
+    
+    ### SWITCH STUFF ###
+    TabbedPanelItem:
+        text: 'switch'
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                id: switch_label
+                text: "switch it"
+                font_size: 40
+
+            Switch:
+                # set default state
+                active: False
+                # disable the switch
+                #disable: True # (secara default dia False (tidak disable))
+                font_size: 25
+                on_active: root.switch_click(self, self.active)
+
