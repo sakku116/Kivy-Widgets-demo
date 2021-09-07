@@ -1,8 +1,9 @@
-# "C:\py venv\kivy_venv\activate\scripts"
+# "C:\py venv\kivy_venv\scripts\activate"
 
 from kivy.app import App
 #from kivy.uix.widget import Widget # untuk penggunaan regular
 from kivy.uix.tabbedpanel import TabbedPanel # untuk penggunaan panel tab
+from kivy.properties import ObjectProperty
 from kivy.animation import Animation
 from kivy.core.window import Window
 from kivy.lang import Builder
@@ -51,9 +52,10 @@ class MyGridLayout(TabbedPanel):
             size_hint = (.9,.9),
             pos_hint = {'center_x': .5},
             font_size = 27,
-            duration = .025)
-            # (satu animate bisa terdiri beberapa element seperti size_hint, background_color dll)
-            # (parameter t untuk transition, lihat di dokumentasi kivy)
+            duration = .025
+        )
+        # (satu animate bisa terdiri beberapa element seperti size_hint, background_color dll)
+        # (parameter t untuk transition, lihat di dokumentasi kivy)
 
         # membuat animasi ke dua
         # (bisa menggunakan &= untuk membuat animasi secara bersamaan)
@@ -61,14 +63,15 @@ class MyGridLayout(TabbedPanel):
             size_hint = (1,1),
             pos_hint = {'center_x': .5},
             font_size = 30,
-            duration = .05)
+            duration = .05
+        )
 
         # amulai animasikan
         animate.start(widget)
 
     def change_label_animate(self):
         self.ids.animate_stuff_label.text = 'look at that!!,\nthe button have a animation'
-    
+
     def switch_click(self, switchObject, switchValue): # switchObject, switchValue are main parameter
         # switchValue me return False dan True
         if switchValue == True:

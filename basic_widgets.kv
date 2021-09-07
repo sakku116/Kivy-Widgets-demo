@@ -89,18 +89,25 @@
 
     ### ROUNDED BUTTON STUFF ###
     TabbedPanelItem:
-        text: 'roundedbtn'
+        text: 'canvas'
         BoxLayout:
             orientation:'vertical'
+            spacing: 15
+            padding: 10
             canvas.before:
                 Color:
                     rgba: (1,1,1,1)
                 Rectangle:
                     size: self.size
                     pos: self.pos
-
-            Label:
-                text: ''
+            Button:
+                text: 'normal button'
+                font_size: 30
+            Button:
+                text: 'basic button'
+                font_size: 30
+                background_normal: ''
+                background_color: 1,0,0,1
             Button:
                 text: 'rounded button'
                 font_size: 30
@@ -118,9 +125,60 @@
                     RoundedRectangle:
                         size: self.size
                         pos: self.pos
-                        radius: [40] if self.state=='normal' else [50]
-            Label:
-                text: ''
+                        radius: [30]
+            Button:
+                text: 'stroke'
+                font_size: 30
+                color: (1,144/255,1,1)
+                # (jika canvas before menggunakan Line, setidaknya satu value rgb diisi dengan /255 
+                # agar terlihat textnya)
+                background_color: 0,0,0,0
+                background_normal: ''
+                canvas.before:
+                    Color:
+                        rgba: (1,0,0,1) if self.state=='normal' else (0,.7,.7,1)
+                    Line:
+                        # Line hanya membentuk garis
+                        # sehingga didalam line tidak ada warna (mengikuti background normal dan background color / transparan)
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
+                        # rectangle punya 4 value, bisa menggunakan
+                        # self.pos[0], self.pos[1], self.size[0], self.size[1]
+            Button:
+                font_size: 30
+                background_color: 0,0,0,0
+                background_normal: ''
+                text: 'stroke + round'
+                color: (1,144/255,1,1)
+                canvas.before:
+                    Color:
+                        rgba: (1,0,0,1) if self.state=='normal' else (0,.7,.7,1)
+                    Line:
+                        width: 2
+                        rounded_rectangle: self.x, self.y, self.width, self.height, 20
+                        # rounded_rectangle punya 5 value, value terakhir merupakan radius
+                        # yang bisa diisi dengan int, atau memanggil variable dari button
+                        # (tidak bisa membuat variable didalam canvas)
+                        # bisa menggunakan
+                        # self.pos[0], self.pos[1], self.size[0], self.size[1]
+            Button:
+                text: 'nested canvas element'
+                font_size: 25
+                background_color: 0,0,0,0
+                backgorund_normal: ''
+                radius: 20
+                canvas.before:
+                    Color:
+                        rgba: (1,0,0,1) if self.state=='normal' else (0,.7,.7,1)
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [self.radius]
+                    Color:
+                        rgba: (0,0,1,1)
+                    Line:
+                        width: 2
+                        rounded_rectangle: self.x, self.y, self.width, self.height, self.radius
 
     ### CHECKBOX STUFF ###
     TabbedPanelItem:
@@ -141,7 +199,7 @@
                     font_size: 25
                     color: (0,0,0,1)
                 CheckBox:
-                    #group: "cb1" #<-- (group for make radio button and can just pick one item per group)
+                    #group: "cb1" #<-- (group untuk membuat radio box, dan hanya bisa terpilih satu dengan radio box di grup yang sama)
                     color: (0,0,0,1)
                     on_active: root.checkbox_click(self, self.active, 'love')
                 Label:
@@ -150,7 +208,7 @@
                     text: 'input you'
                     color: (0,0,0,1)
                 CheckBox:
-                    #group: "cb1" #<-- (group for make radio button and can just pick one item per group)
+                    #group: "cb1" (group untuk membuat radio box, dan hanya bisa terpilih satu dengan radio box di grup yang sama)
                     color: (0,0,0,1)
                     on_active: root.checkbox_click(self, self.active, 'you')
             Label:
@@ -266,7 +324,7 @@
 
     ### CAROUSEL STUFF ###
     TabbedPanelItem:
-        text: 'Carousel'
+        text: 'carousel'
 
         Carousel:
             direction: 'right'
@@ -275,10 +333,34 @@
                 Label:
                     text: 'slide to right'
                     font_size: 30
+                    color: (0,0,0,1)
+                    canvas.before:
+                        Color: 
+                            rgba: (1,1,1,1)
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                        Color: 
+                            rgba: (0,0,1,.5)
+                        Line:
+                            width: 3
+                            rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
             BoxLayout:
                 Label:
                     text: 'item2'
                     font_size: 30
+                    color: (0,0,0,1)
+                    canvas.before:
+                        Color: 
+                            rgba: (1,1,1,1)
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                        Color: 
+                            rgba: (0,0,1,.5)
+                        Line:
+                            width: 3
+                            rectangle: self.pos[0], self.pos[1], self.size[0], self.size[1]
 
     ### WIDGET SIZE STUFF ###
     TabbedPanelItem:
@@ -384,4 +466,5 @@
                 #disable: True # (secara default dia False (tidak disable))
                 font_size: 25
                 on_active: root.switch_click(self, self.active)
-
+            
+                
