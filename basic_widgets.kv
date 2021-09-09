@@ -87,13 +87,13 @@
                     # di import diatas
                     # Factory.MyPopup().[command syntax])
 
-    ### ROUNDED BUTTON STUFF ###
+    ### CANVAS STUFF ###
     TabbedPanelItem:
         text: 'canvas'
         BoxLayout:
             orientation:'vertical'
             spacing: 15
-            padding: 10
+            padding: 20
             canvas.before:
                 Color:
                     rgba: (1,1,1,1)
@@ -161,6 +161,11 @@
                         # (tidak bisa membuat variable didalam canvas)
                         # bisa menggunakan
                         # self.pos[0], self.pos[1], self.size[0], self.size[1]
+                        
+                        # self.pos[0] == self.x
+                        # self.pos[1] == self.y
+                        # self.size[0] == self.width
+                        # self.size[1] == self.height
             Button:
                 text: 'nested canvas element'
                 font_size: 25
@@ -179,6 +184,48 @@
                     Line:
                         width: 2
                         rounded_rectangle: self.x, self.y, self.width, self.height, self.radius
+            
+            Button:
+                # 1/2 ellipse button memakan tempat 1 widget diatasnya
+                text: 'ellipse button'
+                font_size: 25
+                background_color: 0,0,0,0
+                background_normal: ''
+                color: (1,144/255,1,1)
+                canvas.before:
+                    Color:
+                        rgba: (0,1,0,1) if self.state == 'normal' else (1,1,1,1)
+                    Ellipse:
+                        pos: [self.pos[0], self.pos[1]]
+                        size: [self.size[0]*.1, self.size[1]]
+
+            Button:
+                text: 'beautiful button'
+                font_size: 25
+                background_color: (0,0,0,0)
+                background_normal: ''
+                color: (57/255, 178/255, 255/255,1)
+                border_radius: 20
+                canvas.before:
+                    Color: 
+                        rgba: (0,0,0,.15)
+                    Line:
+                        width: 1.5
+                        rounded_rectangle: [self.x, self.y-3.5, self.width, self.height, self.border_radius]
+
+                    Color:
+                        rgba: (1,1,1,1) if self.state == 'normal' else (237/255, 237/255, 237/255,1)
+                    RoundedRectangle:
+                        pos: [self.pos[0], self.pos[1] if self.state == 'normal' else self.pos[0]-1] # x,y
+                        size: self.size
+                        radius: [self.border_radius]
+
+                    Color: 
+                        rgba: self.color
+                    Line:
+                        width: 1.5
+                        rounded_rectangle: self.pos[0], self.pos[1] if self.state == 'normal' else self.pos[0]-1, self.size[0], self.size[1], self.border_radius
+                    
 
     ### CHECKBOX STUFF ###
     TabbedPanelItem:
