@@ -31,7 +31,7 @@
     # #bind ke button
     # on_release: Factory.MyPopup().open()
     # '''
-
+    
 <MyGridLayout>
     do_default_tab: False
 
@@ -292,7 +292,9 @@
                 text: "favorite pizza" # text awal pada button spinner
                 values: ["pepperoni", "cheese", "Mushroom"]
                 on_text: root.spinner_clicked(spinner_widget.text)
-                # (gatau kenapa .text malah return valuesnya wkwkwkwk)
+                # spinner_widget.text karena dia akan mengambil text,
+                # yang dimana value dari text akan berubah jika dipilih
+                # salah satu dari values
 
     ### SPLITTER STUFF ###
     TabbedPanelItem:
@@ -513,5 +515,141 @@
                 #disable: True # (secara default dia False (tidak disable))
                 font_size: 25
                 on_active: root.switch_click(self, self.active)
-            
-                
+    
+    ### SCROLLVIEW STUFF ###
+    TabbedPanelItem:
+        text: 'scrollview'
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            GridLayout:
+                cols: 1
+                padding: 10
+                spacing: 10
+                # size hint y (jika do scroll y true) harus none
+                # karena kalau menggunakan size hint, dia akan fit to screen
+                size_hint_y: None
+                height: 500
+
+                Label:
+                    text: 'label1'
+                    background_normal: ''
+                    background_color: (0,0,0,0)
+                    color: (0,0,0,1)
+                    canvas.before:
+                        Color: 
+                            rgba: (1,1,1,1)
+                        RoundedRectangle: 
+                            size: self.size
+                            pos: self.pos
+                        Color: 
+                            rgba: (0,0,1,1)
+                        Line:
+                            width: 1
+                            rounded_rectangle: self.x, self.y, self.width, self.height, 10
+                Label:
+                    text: 'label2'
+                    background_normal: ''
+                    background_color: (0,0,0,0)
+                    color: (0,0,0,1)
+                    canvas.before:
+                        Color: 
+                            rgba: (1,1,1,1)
+                        RoundedRectangle: 
+                            size: self.size
+                            pos: self.pos
+                        Color: 
+                            rgba: (0,0,1,1)
+                        Line:
+                            width: 1
+                            rounded_rectangle: self.x, self.y, self.width, self.height, 10
+                Label:
+                    text: 'label3'
+                    background_normal: ''
+                    background_color: (0,0,0,0)
+                    color: (0,0,0,1)
+                    canvas.before:
+                        Color: 
+                            rgba: (1,1,1,1)
+                        RoundedRectangle: 
+                            size: self.size
+                            pos: self.pos
+                        Color: 
+                            rgba: (0,0,1,1)
+                        Line:
+                            width: 1
+                            rounded_rectangle: self.x, self.y, self.width, self.height, 10
+                Button:
+                    text: 'button1'
+                Button:
+                    text: 'button2'
+                Button: 
+                    text: 'button3'
+    ### SCROLLVIEW STUFF ###
+    TabbedPanelItem:
+        text: 'scrollview2'
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            Label:
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
+                padding: 10, 10
+                text:
+                    'really some amazing text\n' * 100
+
+    ### PAGELAYOUT STUFF ###
+    TabbedPanelItem:
+        text: 'pagelayout'
+
+        PageLayout:
+        
+            Label:
+                text: 'label1'
+                background_normal: ''
+                background_color: (0,0,0,0)
+                font_size: 30
+                color: (0,0,0,1)
+                canvas.before:
+                    Color: 
+                        rgba: (1,1,1,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Label:
+                text: 'label1'
+                background_normal: ''
+                background_color: (0,0,0,0)
+                font_size: 30
+                canvas.before:
+                    Color: 
+                        rgba: (0,0,1,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Label:
+                text: 'label1'
+                background_normal: ''
+                background_color: (0,0,0,0)
+                canvas.before:
+                    Color: 
+                        rgba: (0,1,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                font_size: 30
+            Label:
+                text: 'label1'
+                background_normal: ''
+                background_color: (0,0,0,0)
+                font_size: 30
+                canvas.before:
+                    Color: 
+                        rgba: (1,0,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                        
